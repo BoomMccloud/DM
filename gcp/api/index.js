@@ -24,6 +24,10 @@ app.post('/pub', async (req, res) => {
   }
 });
 
+app.get('/ping', async (req, res) => {
+  res.send("pong");
+});
+
 const port = process.env.PORT || 3000;
 app.listen(port, () => {
   console.log(`Listening on port ${port}`);
