@@ -1,5 +1,4 @@
-
-console.log('init')
+console.log('init');
 document.body.insertAdjacentHTML(
   'beforeend',
   `<div id="my-overlay">
@@ -15,8 +14,7 @@ document.body.insertAdjacentHTML(
   'beforeend',
   `<canvas id="confetti"></canvas>`
 );
-document.querySelector('#my-overlay').style.cssText =
-  `position: fixed;
+document.querySelector('#my-overlay').style.cssText = `position: fixed;
   bottom: 0px;
   gap:8px;
   left: 0px;
@@ -24,36 +22,34 @@ document.querySelector('#my-overlay').style.cssText =
   background: white;
   border: 1px solid gray;
   padding: 8px;
-  z-index: 999999;`
-document.querySelector('#form').style.cssText =
-  `
+  z-index: 999999;`;
+document.querySelector('#form').style.cssText = `
   display: flex;
   gap: 8px;
   align-items: center;
   width: 80%;
-  `
-document.querySelector('#message').style.cssText =
-  `
+  `;
+document.querySelector('#message').style.cssText = `
   border: 1px solid black;
   border-radius: 2px;
   padding: 2px;
   flex-grow: 1;
-  `
+  `;
 document.querySelector('#confetti').style.cssText =
   'position: absolute; bottom: 0px; left: 0px; right:0; top:0; z-index: 999998;';
 
 // WebSocket connection setup
 const webSocket = new WebSocket('wss://wss.savannah.haus/websocket/');
 
-webSocket.onopen = function(event) {
-  console.log("Connection established");
+webSocket.onopen = function (event) {
+  console.log('Connection established');
 };
 
-webSocket.onerror = function(error) {
-  console.error("WebSocket Error: ", error);
+webSocket.onerror = function (error) {
+  console.error('WebSocket Error: ', error);
 };
 
-webSocket.onmessage = function(event) {
+webSocket.onmessage = function (event) {
   try {
     // Parse the JSON data received
     const jsonData = JSON.parse(event.data);
@@ -73,12 +69,14 @@ webSocket.onmessage = function(event) {
     `;
 
     // Pride style
-    newDiv.style.cssText= newDiv.style.cssText + `
+    newDiv.style.cssText =
+      newDiv.style.cssText +
+      `
     background-image: linear-gradient(to right, #E70000, #FF8C00, #FFEF00, #00811F, #0044FF, #760089);
     font-size: 2rem;
     -webkit-background-clip: text;
     color:transparent;
-    `
+    `;
 
     // Add the new div to the body
     document.body.appendChild(newDiv);
@@ -96,58 +94,65 @@ webSocket.onmessage = function(event) {
       document.head.appendChild(style);
     }
   } catch (e) {
-    console.error("Error parsing JSON or updating input:", e);
+    console.error('Error parsing JSON or updating input:', e);
   }
 };
 
-webSocket.onclose = function(event) {
-  console.log("WebSocket connection closed");
+webSocket.onclose = function (event) {
+  console.log('WebSocket connection closed');
 };
 
 document.querySelector('#form').addEventListener('submit', function (event) {
-
   console.log('Submitted x');
   event.preventDefault();
   var inputValue = document.querySelector('#message').value;
 
   // Prepare the data to send to the server
   const postData = {
-    "content" : inputValue,
+    content: inputValue
   };
 
   // Send the data to the server
   fetch('https://vercel-pubsub-server-q5v2a4doda-uc.a.run.app/pub', {
     method: 'POST',
     headers: {
-      'Content-Type': 'application/json',
+      'Content-Type': 'application/json'
     },
-    body: JSON.stringify(postData),
+    body: JSON.stringify(postData)
   })
-  .then(response => response.text())
-  .then(data => console.log(data))
-  .catch((error) => {
-    console.error('Error:', error);
-  });
+    .then((response) => response.text())
+    .then((data) => console.log(data))
+    .catch((error) => {
+      console.error('Error:', error);
+    });
 
-  var randomTop = Math.floor(Math.random() * 60) + 20;
+  const randomTop = Math.floor(Math.random() * 60) + 20;
+  const horizontalStartPos = Math.random() * 100; // Random horizontal start position beyond 100%
+  // const colors = ['white', 'yellow', 'green'];
+  const fontSize = Math.random() * (24 - 16) + 16; // Random font size between 16px and 24px
+  const colorIndex = Math.floor(Math.random() * 3); // Random color index
+  const transitionTime = Math.floor(Math.random() * 10 + 10); // Random transition time between 10s and 20s
 
   var newDiv = document.createElement('div');
   newDiv.textContent = inputValue;
   newDiv.style.cssText = `
-    position: fixed;
-    top: ${randomTop}%;
-    right:0;
-    transform: translateX(-50%);
-    animation: float 10s ease-in-out forwards;
-  `;
+      position: fixed;
+      top: ${randomTop}%;
+      right: -${horizontalStartPos}%;
+      transform: translateX(-50%);
+      animation: float ${transitionTime}s ease-in-out forwards;
+      font-size: ${fontSize}px;
+
+
+    `;
 
   // Pride Month Style
-  newDiv.style.cssText= newDiv.style.cssText + `
+  newDiv.style.cssText =
+    newDiv.style.cssText +
+    `
     background-image: linear-gradient(to right, #E70000, #FF8C00, #FFEF00, #00811F, #0044FF, #760089);
-    font-size: 2rem;
-    -webkit-background-clip: text;
     color:transparent;
-  `
+    -webkit-background-clip: text;`;
 
   // Add the new div to the body
   document.body.appendChild(newDiv);
@@ -155,11 +160,10 @@ document.querySelector('#form').addEventListener('submit', function (event) {
   // Define the keyframes for the "float" animation
   var style = document.createElement('style');
   style.innerHTML = `
-    @keyframes float {
-      0% { right: -20px; }
-      100% { right: 950%; }
-    }
-  `;
+      @keyframes float {
+        0% { right: -20px; }
+        100% { right: 100%; }
+      }
+    `;
   document.head.appendChild(style);
-
-  });
+});
