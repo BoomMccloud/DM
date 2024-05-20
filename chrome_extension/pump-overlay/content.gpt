@@ -1,0 +1,136 @@
+console.log('Initialization');
+
+// Injecting HTML structure into the body
+document.body.insertAdjacentHTML(
+  'beforeend',
+  `<div id="my-overlay">
+    <form id="form">
+      <p>Pew Pew</p>
+      <input id="message" type="text" >
+      <input id="submit-btn" type="submit" value="Pump it!">
+      <button id="celebrate" style="margin-left: 8px;">celebrate</button>
+    </form>
+    <canvas id="confetti"></canvas>
+  </div>`
+);
+
+// Style setup for UI elements
+const overlayStyle = `
+  position: fixed;
+  bottom: 0px;
+  left: 0px;
+  right: 0px;
+  background: white;
+  border: 1px solid gray;
+  padding: 8px;
+  z-index: 999999;
+  display: flex;
+  flex-direction: column;
+`;
+document.querySelector('#my-overlay').style.cssText = overlayStyle;
+
+const formStyle = `
+  display: flex;
+  gap: 8px;
+  align-items: center;
+  width: 80%;
+`;
+document.querySelector('#form').style.cssText = formStyle;
+
+const messageStyle = `
+  border: 1px solid black;
+  border-radius: 2px;
+  padding: 2px;
+  flex-grow: 1;
+`;
+document.querySelector('#message').style.cssText = messageStyle;
+
+document.querySelector('#confetti').style.cssText = `
+  position: absolute;
+  bottom: 0px;
+  left: 0px;
+  right:0px;
+  top:0px;
+  z-index: 999998;
+`;
+
+// WebSocket setup and event handlers
+const webSocket = new WebSocket('wss://wss.savannah.haus/websocket/');
+webSocket.onopen = () => console.log('Connection established');
+webSocket.onerror = (error) => console.error('WebSocket Error: ', error);
+webSocket.onmessage = handleWebSocketMessage;
+webSocket.onclose = () => console.log('WebSocket connection closed');
+
+function handleWebSocketMessage(event) {
+  try {
+    const jsonData = JSON.parse(event.data);
+    const fieldValue = jsonData.content;
+    createFloatingDiv(fieldValue, true);  // Call helper function with pride style
+  } catch (e) {
+    console.error('Error parsing JSON or updating input:', e);
+  }
+}
+
+// Event listener for form submission
+document.querySelector('#form').addEventListener('submit', function (event) {
+  event.preventDefault();
+  var inputValue = document.querySelector('#message').value;
+  sendMessageToServer(inputValue);
+  createFloatingDiv(inputValue, true);  // Call helper function with pride style
+});
+
+// Helper function to create floating div with optional pride styling
+function createFloatingDiv(text, usePrideStyle = false) {
+  const randomTop = Math.floor(Math.random() * 60) + 20;
+  const horizontalStartPos = Math.random() * 100;
+  const fontSize = Math.random() * (24 - 16) + 16;
+  const transitionTime = Math.floor(Math.random() * 10 + 10);
+
+  var newDiv = document.createElement('div');
+  newDiv.textContent = text;
+  newDiv.style.cssText = `
+    position: fixed;
+    top: ${randomTop}%;
+    right: -${horizontalStartPos}%;
+    transform: translateX(-50%);
+    animation: float ${transitionTime}s ease-in-out forwards;
+    font-size: ${fontSize}px;
+  `;
+
+  if (usePrideStyle) {
+    newDiv.style.cssText += `
+      background-image: linear-gradient(to right, #E70000, #FF8C00, #FFEF00, #00811F, #0044FF, #760089);
+      color: transparent;
+      -webkit-background-clip: text;
+    `;
+  }
+
+  document.body.appendChild(newDiv);
+}
+
+// Function to send data to the server
+function sendMessageToServer(message) {
+  const postData = { content: message };
+
+  fetch('https://vercel-pubsub-server-q5v2a4doda-uc.a.run.app/pub', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify(postData)
+  })
+    .then(response => response.text())
+    .then(data => console.log(data))
+    .catch(error => console.error('Error:', error));
+}
+
+// Adding CSS for animation via JavaScript
+if (!document.querySelector('#float-animation-style')) {
+  var style = document.createElement('style');
+  style.id = 'float-animation-style';
+  style.innerHTML = `
+    @keyframes float {
+      0% { right: -20px; }
+      100% { right: 100%; }
+    }
+  `;
+  document.head.appendChild(style);
+}

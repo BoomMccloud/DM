@@ -6,9 +6,9 @@ button.addEventListener('click', function(event) {
 
   var speed = 50,
       duration = (1.0 / speed),
-      confettiRibbonCount = 50,
-      confettiPaperCount = 300,
-      ribbonPaperCount = 30,
+      confettiRibbonCount = 25,
+      confettiPaperCount = 100,
+      ribbonPaperCount = 15,
       ribbonPaperDist = 8.0,
       ribbonPaperThick = 8.0,
       DEG_TO_RAD = PI / 180,

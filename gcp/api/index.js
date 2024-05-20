@@ -11,7 +11,7 @@ app.use(cors());  // This will allow all domains. For production, configure allo
 
 
 app.post('/pub', async (req, res) => {
-  const topicName = 'projects/second-height-387103/topics/message';
+  const topicName = 'projects/bb-rnd-poc/topics/dm-extension-messages';
   const dataBuffer = Buffer.from(JSON.stringify(req.body));
 
   try {
