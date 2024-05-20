@@ -4,11 +4,11 @@ document.body.insertAdjacentHTML(
   'beforeend',
   `<div id="my-overlay">
     <form id="form">
-      <p>Send your DMs here</p>
+      <p>Pew Pew</p>
       <input id="message" type="text" >
-      <input id="submit-btn" type="submit" value="Pump it">
+      <input id="submit-btn" type="submit" value="Pump it!">
+      <button id="celebrate" style="margin-left: 8px;">celebrate</button>
     </form>
-    <button id="celebrate" style="margin-left: 8px;">celebrate</button>
   </div>`
 );
 document.body.insertAdjacentHTML(
@@ -22,20 +22,20 @@ document.querySelector('#my-overlay').style.cssText =
   left: 0px;
   right:0;
   background: white;
-  border: 1px solid black;
-  padding: 10px;
+  border: 1px solid gray;
+  padding: 8px;
   z-index: 999999;`
 document.querySelector('#form').style.cssText =
   `
   display: flex;
   gap: 8px;
   align-items: center;
-  width: 100%;
+  width: 80%;
   `
 document.querySelector('#message').style.cssText =
   `
   border: 1px solid black;
-  border-radius: 4px;
+  border-radius: 2px;
   padding: 2px;
   flex-grow: 1;
   `
@@ -98,7 +98,7 @@ webSocket.onclose = function(event) {
 
 document.querySelector('#form').addEventListener('submit', function (event) {
 
-  console.log('test x');
+  console.log('Submitted x');
   event.preventDefault();
   var inputValue = document.querySelector('#message').value;
 
@@ -141,7 +141,7 @@ document.querySelector('#form').addEventListener('submit', function (event) {
   style.innerHTML = `
     @keyframes float {
       0% { right: -20px; }
-      100% { right: 100%; }
+      100% { right: 950%; }
     }
   `;
   document.head.appendChild(style);
