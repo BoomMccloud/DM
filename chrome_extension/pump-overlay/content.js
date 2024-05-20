@@ -72,6 +72,14 @@ webSocket.onmessage = function(event) {
       animation: float 10s ease-in-out forwards;
     `;
 
+    // Pride style
+    newDiv.style.cssText= newDiv.style.cssText + `
+    background-image: linear-gradient(to right, #E70000, #FF8C00, #FFEF00, #00811F, #0044FF, #760089);
+    font-size: 2rem;
+    -webkit-background-clip: text;
+    color:transparent;
+    `
+
     // Add the new div to the body
     document.body.appendChild(newDiv);
 
