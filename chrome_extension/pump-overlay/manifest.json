@@ -16,7 +16,8 @@
         "content.js",
         "celebrate.js",
         "fireworks.js"
-      ]
+      ],
+      "css": ["styles.css"]
     }
   ],
   "web_accessible_resources": [

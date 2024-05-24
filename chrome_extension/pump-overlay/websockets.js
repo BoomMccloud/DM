@@ -13,14 +13,14 @@ function setupWebSocket() {
 function handleWebSocketMessage(event) {
     try {
         const jsonData = JSON.parse(event.data);
-        const fieldValue = jsonData.content;
 
         // Check for the specific structure to trigger celebration
         if (jsonData.type === "0" && jsonData.content === "triggerCelebration" && jsonData.source === "3") {
             triggerCelebration();
         } else {
             const fieldValue = jsonData.content;
-            createFloatingDiv(fieldValue);
+            console.log('Displaying text:', fieldValue);
+            window.createFloatingDiv(fieldValue, 12000); // 5 seconds duration
         }
     } catch (e) {
         console.error('Error parsing JSON or updating input:', e);

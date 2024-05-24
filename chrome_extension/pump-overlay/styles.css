@@ -1,9 +1,9 @@
 /* styles.css */
 #my-overlay {
     position: fixed;
-    bottom: 0;
-    left: 0;
-    right: 0;
+    bottom: 0px;
+    left: 0px;
+    right: 0px;
     background: white;
     border: 1px solid gray;
     padding: 8px;
@@ -24,25 +24,26 @@
     flex-grow: 1;
 }
 
-#confetti {
-    position: absolute;
-    bottom: 0;
-    left: 0;
-    right: 0;
+#confetti, #fireworks {
+    position: fixed;
     top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
     z-index: 999998;
+    pointer-events: none;
 }
 
-@keyframes float {
-    0% { right: -20px; }
-    100% { right: 100%; }
-}
-
-.floatingDiv {
+.floating-div {
     position: fixed;
     background-image: linear-gradient(to right, #E70000, #FF8C00, #FFEF00, #00811F, #0044FF, #760089);
     font-size: 2rem;
     -webkit-background-clip: text;
     color: transparent;
     animation: float 10s ease-in-out forwards;
+}
+
+@keyframes float {
+    0% { right: -20px; }
+    100% { right: 100%; }
 }

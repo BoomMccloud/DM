@@ -1,4 +1,4 @@
-function startCelebrate(canvasId, duration) {
+function startCelebrate(canvasId, stopDuration) {
     var canvas = document.getElementById(canvasId) || createCanvas(canvasId);
 
     // Set the canvas dimensions to cover the entire screen
@@ -15,8 +15,8 @@ function startCelebrate(canvasId, duration) {
         ribbonPaperCount = 15,
         ribbonPaperDist = 8.0,
         ribbonPaperThick = 8.0,
-        DEG_TO_RAD = PI / 180,
-        RAD_TO_DEG = 180 / PI,
+        DEG_TO_RAD = Math.PI / 180,
+        RAD_TO_DEG = 180 / Math.PI,
         colors = [
             ["#df0049", "#660671"],
             ["#00e857", "#005291"],
@@ -27,7 +27,7 @@ function startCelebrate(canvasId, duration) {
     function Vector2(_x, _y) {
         this.x = _x, this.y = _y;
         this.Length = function() {
-            return sqrt(this.SqrLength());
+            return Math.sqrt(this.SqrLength());
         }
         this.SqrLength = function() {
             return this.x * this.x + this.y * this.y;
@@ -51,7 +51,7 @@ function startCelebrate(canvasId, duration) {
         this.Normalize = function() {
             var sqrLen = this.SqrLength();
             if (sqrLen != 0) {
-                var factor = 1.0 / sqrt(sqrLen);
+                var factor = 1.0 / Math.sqrt(sqrLen);
                 this.x *= factor;
                 this.y *= factor;
             }
@@ -59,7 +59,7 @@ function startCelebrate(canvasId, duration) {
         this.Normalized = function() {
             var sqrLen = this.SqrLength();
             if (sqrLen != 0) {
-                var factor = 1.0 / sqrt(sqrLen);
+                var factor = 1.0 / Math.sqrt(sqrLen);
                 return new Vector2(this.x * factor, this.y * factor);
             }
             return new Vector2(0, 0);
@@ -70,12 +70,12 @@ function startCelebrate(canvasId, duration) {
         return new Vector2((_vec1.x - _vec0.x) * _t + _vec0.x, (_vec1.y - _vec0.y) * _t + _vec0.y);
     }
     Vector2.Distance = function(_vec0, _vec1) {
-        return sqrt(Vector2.SqrDistance(_vec0, _vec1));
+        return Math.sqrt(Vector2.SqrDistance(_vec0, _vec1));
     }
     Vector2.SqrDistance = function(_vec0, _vec1) {
         var x = _vec0.x - _vec1.x;
         var y = _vec0.y - _vec1.y;
-        return (x * x + y * y + z * z);
+        return (x * x + y * y);
     }
     Vector2.Scale = function(_vec0, _vec1) {
         return new Vector2(_vec0.x * _vec1.x, _vec0.y * _vec1.y);
@@ -91,7 +91,7 @@ function startCelebrate(canvasId, duration) {
         return new Vector2(vecNorm.x * _len, vecNorm.y * _len);
     }
     Vector2.Sub = function(_vec0, _vec1) {
-        return new Vector2(_vec0.x - _vec1.x, _vec0.y - _vec1.y, _vec0.z - _vec1.z);
+        return new Vector2(_vec0.x - _vec1.x, _vec0.y - _vec1.y);
     }
 
     function EulerMass(_x, _y, _mass, _drag) {
@@ -125,32 +125,32 @@ function startCelebrate(canvasId, duration) {
 
     function ConfettiPaper(_x, _y) {
         this.pos = new Vector2(_x, _y);
-        this.rotationSpeed = (random() * 600 + 800);
-        this.angle = DEG_TO_RAD * random() * 360;
-        this.rotation = DEG_TO_RAD * random() * 360;
+        this.rotationSpeed = (Math.random() * 600 + 800);
+        this.angle = DEG_TO_RAD * Math.random() * 360;
+        this.rotation = DEG_TO_RAD * Math.random() * 360;
         this.cosA = 1.0;
         this.size = 5.0;
-        this.oscillationSpeed = (random() * 1.5 + 0.5);
+        this.oscillationSpeed = (Math.random() * 1.5 + 0.5);
         this.xSpeed = 40.0;
-        this.ySpeed = (random() * 60 + 50.0);
+        this.ySpeed = (Math.random() * 60 + 50.0);
         this.corners = new Array();
-        this.time = random();
-        var ci = round(random() * (colors.length - 1));
+        this.time = Math.random();
+        var ci = Math.round(Math.random() * (colors.length - 1));
         this.frontColor = colors[ci][0];
         this.backColor = colors[ci][1];
         for (var i = 0; i < 4; i++) {
-            var dx = cos(this.angle + DEG_TO_RAD * (i * 90 + 45));
-            var dy = sin(this.angle + DEG_TO_RAD * (i * 90 + 45));
+            var dx = Math.cos(this.angle + DEG_TO_RAD * (i * 90 + 45));
+            var dy = Math.sin(this.angle + DEG_TO_RAD * (i * 90 + 45));
             this.corners[i] = new Vector2(dx, dy);
         }
         this.Update = function(_dt) {
             this.time += _dt;
             this.rotation += this.rotationSpeed * _dt;
-            this.cosA = cos(DEG_TO_RAD * this.rotation);
-            this.pos.x += cos(this.time * this.oscillationSpeed) * this.xSpeed * _dt
+            this.cosA = Math.cos(DEG_TO_RAD * this.rotation);
+            this.pos.x += Math.cos(this.time * this.oscillationSpeed) * this.xSpeed * _dt;
             this.pos.y += this.ySpeed * _dt;
             if (this.pos.y > ConfettiPaper.bounds.y) {
-                this.pos.x = random() * ConfettiPaper.bounds.x;
+                this.pos.x = Math.random() * ConfettiPaper.bounds.x;
                 this.pos.y = 0;
             }
         }
@@ -177,18 +177,18 @@ function startCelebrate(canvasId, duration) {
         this.particleMass = _mass;
         this.particleDrag = _drag;
         this.particles = new Array();
-        var ci = round(random() * (colors.length - 1));
+        var ci = Math.round(Math.random() * (colors.length - 1));
         this.frontColor = colors[ci][0];
         this.backColor = colors[ci][1];
-        this.xOff = (cos(DEG_TO_RAD * _angle) * _thickness);
-        this.yOff = (sin(DEG_TO_RAD * _angle) * _thickness);
+        this.xOff = (Math.cos(DEG_TO_RAD * _angle) * _thickness);
+        this.yOff = (Math.sin(DEG_TO_RAD * _angle) * _thickness);
         this.position = new Vector2(_x, _y);
         this.prevPosition = new Vector2(_x, _y);
-        this.velocityInherit = (random() * 2 + 4);
-        this.time = random() * 100;
-        this.oscillationSpeed = (random() * 2 + 2);
-        this.oscillationDistance = (random() * 40 + 40);
-        this.ySpeed = (random() * 40 + 80);
+        this.velocityInherit = (Math.random() * 2 + 4);
+        this.time = Math.random() * 100;
+        this.oscillationSpeed = (Math.random() * 2 + 2);
+        this.oscillationDistance = (Math.random() * 40 + 40);
+        this.ySpeed = (Math.random() * 40 + 80);
         for (var i = 0; i < this.particleCount; i++) {
             this.particles[i] = new EulerMass(_x, _y - i * this.particleDist, this.particleMass, this.particleDrag);
         }
@@ -196,11 +196,11 @@ function startCelebrate(canvasId, duration) {
             var i = 0;
             this.time += _dt * this.oscillationSpeed;
             this.position.y += this.ySpeed * _dt;
-            this.position.x += cos(this.time) * this.oscillationDistance * _dt;
+            this.position.x += Math.cos(this.time) * this.oscillationDistance * _dt;
             this.particles[0].position = this.position;
             var dX = this.prevPosition.x - this.position.x;
             var dY = this.prevPosition.y - this.position.y;
-            var delta = sqrt(dX * dX + dY * dY);
+            var delta = Math.sqrt(dX * dX + dY * dY);
             this.prevPosition = new Vector2(this.position.x, this.position.y);
             for (i = 1; i < this.particleCount; i++) {
                 var dirP = Vector2.Sub(this.particles[i - 1].position, this.particles[i].position);
@@ -224,15 +224,15 @@ function startCelebrate(canvasId, duration) {
             }
         }
         this.Reset = function() {
-            this.position.y = -random() * ConfettiRibbon.bounds.y;
-            this.position.x = random() * ConfettiRibbon.bounds.x;
+            this.position.y = -Math.random() * ConfettiRibbon.bounds.y;
+            this.position.x = Math.random() * ConfettiRibbon.bounds.x;
             this.prevPosition = new Vector2(this.position.x, this.position.y);
-            this.velocityInherit = random() * 2 + 4;
-            this.time = random() * 100;
-            this.oscillationSpeed = random() * 2.0 + 1.5;
-            this.oscillationDistance = (random() * 40 + 40);
-            this.ySpeed = random() * 40 + 80;
-            var ci = round(random() * (colors.length - 1));
+            this.velocityInherit = Math.random() * 2 + 4;
+            this.time = Math.random() * 100;
+            this.oscillationSpeed = Math.random() * 2.0 + 1.5;
+            this.oscillationDistance = (Math.random() * 40 + 40);
+            this.ySpeed = Math.random() * 40 + 80;
+            var ci = Math.round(Math.random() * (colors.length - 1));
             this.frontColor = colors[ci][0];
             this.backColor = colors[ci][1];
             this.particles = new Array();
@@ -297,7 +297,7 @@ function startCelebrate(canvasId, duration) {
             return ((x1 - x2) * (y3 - y2) - (y1 - y2) * (x3 - x2));
         }
     }
-    ConfettiRibbon.bounds = new Vector2(0, 0);
+    ConfettiRibbon.bounds = new Vector2(window.innerWidth, window.innerHeight);
     confetti = {};
     confetti.Context = function(id) {
         var i = 0;
@@ -312,12 +312,12 @@ function startCelebrate(canvasId, duration) {
         var confettiRibbons = new Array();
         ConfettiRibbon.bounds = new Vector2(canvasWidth, canvasHeight);
         for (i = 0; i < confettiRibbonCount; i++) {
-            confettiRibbons[i] = new ConfettiRibbon(random() * canvasWidth, -random() * canvasHeight * 2, ribbonPaperCount, ribbonPaperDist, ribbonPaperThick, 45, 1, 0.05);
+            confettiRibbons[i] = new ConfettiRibbon(Math.random() * canvasWidth, -Math.random() * canvasHeight * 2, ribbonPaperCount, ribbonPaperDist, ribbonPaperThick, 45, 1, 0.05);
         }
         var confettiPapers = new Array();
         ConfettiPaper.bounds = new Vector2(canvasWidth, canvasHeight);
         for (i = 0; i < confettiPaperCount; i++) {
-            confettiPapers[i] = new ConfettiPaper(random() * canvasWidth, random() * canvasHeight);
+            confettiPapers[i] = new ConfettiPaper(Math.random() * canvasWidth, Math.random() * canvasHeight);
         }
         this.resize = function() {
             canvasWidth = canvasParent.offsetWidth;
@@ -354,7 +354,7 @@ function startCelebrate(canvasId, duration) {
     var confetti = new confetti.Context(canvasId);
     confetti.start();
 
-    // Stop the confetti animation after the specified duration
+    // Stop the confetti animation after the specified stop duration
     setTimeout(function() {
         confetti.stop();
 
@@ -364,7 +364,7 @@ function startCelebrate(canvasId, duration) {
 
         // Remove the canvas element from the DOM
         canvas.parentNode.removeChild(canvas);
-    }, duration);
+    }, stopDuration);
 
     window.addEventListener('resize', function(event){
         confetti.resize();
