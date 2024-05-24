@@ -11,14 +11,17 @@
     {
       "matches": ["<all_urls>"],
       "js": [
+        "functions.js",
+        "websockets.js",
         "content.js",
-        "celebrate.js"
+        "celebrate.js",
+        "fireworks.js"
       ]
     }
   ],
   "web_accessible_resources": [
     {
-      "resources": ["celebrate.js"],
+      "resources": ["celebrate.js", "fireworks.js"],
       "matches": ["<all_urls>"]
     }
   ],

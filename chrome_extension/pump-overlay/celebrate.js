@@ -381,7 +381,7 @@ button.addEventListener('click', function(event) {
 
   // Remove the canvas element from the DOM
   canvas.parentNode.removeChild(canvas);
-}, 2100);
+}, 5000);
 
   window.addEventListener('resize', function(event){
     confetti.resize();
