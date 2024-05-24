@@ -4,12 +4,12 @@
 })();
 
 function startFireworks(canvasId, duration) {
-    var canvas = document.getElementById(canvasId),
+    var canvas = document.getElementById(canvasId) || createCanvas(canvasId),
         ctx = canvas.getContext("2d"),
-        width = 0,
-        height = 0,
-        vanishPointY = 0,
-        vanishPointX = 0,
+        width = window.innerWidth,
+        height = window.innerHeight,
+        vanishPointY = height / 2,
+        vanishPointX = width / 2,
         focalLength = 300,
         angleX = 180,
         angleY = 180,
@@ -20,7 +20,7 @@ function startFireworks(canvasId, duration) {
         lastShot = new Date().getTime();
 
     var emitters = [];
-    var animationFrameId; // Define animationFrameId here
+    var animationFrameId;
 
     canvas.width = width;
     canvas.height = height;
@@ -86,7 +86,7 @@ function startFireworks(canvasId, duration) {
             if (particle.render && particle.xPos < width && particle.xPos > 0 && particle.yPos > 0 && particle.yPos < height) {
                 for (w = 0; w < particle.size; w++) {
                     for (h = 0; h < particle.size; h++) {
-                        if (particle.xPos + w < width && particle.xPos + w > 0 && particle.yPos + h > 0 && particle.yPos < height) {
+                        if (particle.xPos + w < width && particle.xPos + w > 0 && particle.yPos > 0 && particle.yPos < height) {
                             pData = (~~(particle.xPos + w) + (~~(particle.yPos + h) * width)) * 4;
                             data[pData] = particle.color[0];
                             data[pData + 1] = particle.color[1];
@@ -208,3 +208,18 @@ function startFireworks(canvasId, duration) {
 
 // Expose the startFireworks function to the global scope
 window.startFireworks = startFireworks;
+
+// Function to create the canvas element
+function createCanvas(id) {
+    var canvas = document.createElement('canvas');
+    canvas.id = id;
+    canvas.style.position = 'fixed';
+    canvas.style.top = '0';
+    canvas.style.left = '0';
+    canvas.style.width = '100%';
+    canvas.style.height = '100%';
+    canvas.style.pointerEvents = 'none';  // Make sure it doesn't block any other elements
+    canvas.style.zIndex = '999999';  // Ensure it is on top of other elements
+    document.body.appendChild(canvas);
+    return canvas;
+}

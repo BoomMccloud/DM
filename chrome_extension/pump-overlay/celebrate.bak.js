@@ -1,9 +1,30 @@
-console.log('celebrate')
+// Function to create the canvas element
+function createCanvas() {
+  var canvas = document.createElement('canvas');
+  canvas.id = 'confetti';
+  canvas.style.position = 'fixed';
+  canvas.style.top = '0';
+  canvas.style.left = '0';
+  canvas.style.width = '100%';
+  canvas.style.height = '100%';
+  canvas.style.pointerEvents = 'none';  // Make sure it doesn't block any other elements
+  canvas.style.zIndex = '999999';  // Ensure it is on top of other elements
+  document.body.appendChild(canvas);
+  return canvas;
+}
+
+console.log('Celebrate loaded')
 var button=document.querySelector('#celebrate') // Replace '#my-button' with your button's id
 console.log(button)
 button.addEventListener('click', function(event) {
-  // Your code here. This will be executed when the button is clicked.
+  // Prevent the click event from propagating and triggering the submit button
+  event.stopPropagation();
+  event.preventDefault();
 
+  // Create the canvas element if it doesn't exist
+  var canvas = document.getElementById('confetti') || createCanvas();
+
+  // Your code here. This will be executed when the button is clicked.
   var speed = 50,
       duration = (1.0 / speed),
       confettiRibbonCount = 25,
@@ -19,7 +40,7 @@ button.addEventListener('click', function(event) {
         ["#2bebbc", "#05798a"],
         ["#ffd200", "#b06c00"]
       ];
-
+      
   function Vector2(_x, _y) {
     this.x = _x, this.y = _y;
     this.Length = function() {
@@ -348,6 +369,20 @@ button.addEventListener('click', function(event) {
   };
   var confetti = new confetti.Context('confetti');
   confetti.start();
+
+  // Stop the confetti animation after 2 seconds
+  setTimeout(function() {
+    confetti.stop();
+
+  // Clear the canvas
+  var canvas = document.getElementById('confetti');
+  var context = canvas.getContext('2d');
+  context.clearRect(0, 0, canvas.width, canvas.height);
+
+  // Remove the canvas element from the DOM
+  canvas.parentNode.removeChild(canvas);
+}, 5000);
+
   window.addEventListener('resize', function(event){
     confetti.resize();
   });
