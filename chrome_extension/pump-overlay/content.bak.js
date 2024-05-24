@@ -71,7 +71,7 @@ function generateHtml() {
                 <p>Pew Pew</p>
                 <input id="message" type="text">
                 <input id="submit-btn" type="submit" value="Pump it!">
-                <button id="celebrate" style="margin-left: 8px;">Woot woot!</button>
+                <button id="celebrate" style="margin-left: 8px;">Celebrate!</button>
             </form>
         </div>
         <canvas id="confetti"></canvas>

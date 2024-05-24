@@ -1,15 +1,28 @@
 {
   "manifest_version": 3,
-  "name": "UI Overlay Extension",
-  "version": "1.0",
+  "name": "DM - A Social Network Web Extension",
+  "version": "0.1",
+  "description": "DM allows users to chat, send and receive messages from any website.",
   "permissions": [
-      "activeTab",
-      "webRequest"
+    "activeTab",
+    "storage"
   ],
   "content_scripts": [
     {
       "matches": ["<all_urls>"],
-      "js": ["content.js","celebrate.js"]
+      "js": [
+        "content.js",
+        "celebrate.js"
+      ]
     }
-  ]
+  ],
+  "web_accessible_resources": [
+    {
+      "resources": ["celebrate.js"],
+      "matches": ["<all_urls>"]
+    }
+  ],
+  "content_security_policy": {
+    "extension_pages": "script-src 'self'; object-src 'self'"
+  }
 }

@@ -1,0 +1,48 @@
+/* styles.css */
+#my-overlay {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    background: white;
+    border: 1px solid gray;
+    padding: 8px;
+    z-index: 999999;
+}
+
+#form {
+    display: flex;
+    gap: 8px;
+    align-items: center;
+    width: 80%;
+}
+
+#message {
+    border: 1px solid black;
+    border-radius: 2px;
+    padding: 2px;
+    flex-grow: 1;
+}
+
+#confetti {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    top: 0;
+    z-index: 999998;
+}
+
+@keyframes float {
+    0% { right: -20px; }
+    100% { right: 100%; }
+}
+
+.floatingDiv {
+    position: fixed;
+    background-image: linear-gradient(to right, #E70000, #FF8C00, #FFEF00, #00811F, #0044FF, #760089);
+    font-size: 2rem;
+    -webkit-background-clip: text;
+    color: transparent;
+    animation: float 10s ease-in-out forwards;
+}

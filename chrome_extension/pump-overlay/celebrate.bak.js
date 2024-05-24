@@ -1,4 +1,4 @@
-console.log('Celebrate loaded')
+console.log('celebrate')
 var button=document.querySelector('#celebrate') // Replace '#my-button' with your button's id
 console.log(button)
 button.addEventListener('click', function(event) {
