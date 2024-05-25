@@ -32,7 +32,7 @@ function handleSubmit(event) {
     event.preventDefault();
     const inputValue = document.querySelector('#message').value;
     publishMessage(inputValue);
-    window.createFloatingDiv(inputValue, 5000); // 5 seconds duration
+    // window.createFloatingDiv(inputValue, 5000); // 5 seconds duration
 }
 
 // Create and display floating div

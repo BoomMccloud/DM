@@ -20,7 +20,7 @@ function handleWebSocketMessage(event) {
         } else {
             const fieldValue = jsonData.content;
             console.log('Displaying text:', fieldValue);
-            window.createFloatingDiv(fieldValue, 12000); // 5 seconds duration
+            window.createFloatingDiv(fieldValue, config.transactionDisplayDuration); // 5 seconds duration
         }
     } catch (e) {
         console.error('Error parsing JSON or updating input:', e);

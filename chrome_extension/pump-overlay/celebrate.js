@@ -91,7 +91,7 @@ function startCelebrate(canvasId, stopDuration) {
         return new Vector2(vecNorm.x * _len, vecNorm.y * _len);
     }
     Vector2.Sub = function(_vec0, _vec1) {
-        return new Vector2(_vec0.x - _vec1.x, _vec0.y - _vec1.y);
+        return new Vector2(_vec0.x - _vec1.x, _vec1.y - _vec1.y);
     }
 
     function EulerMass(_x, _y, _mass, _drag) {
@@ -389,11 +389,7 @@ var retina = window.devicePixelRatio,
     cAF = window.cancelAnimationFrame || window.cancelRequestAnimationFrame,
     _now = Date.now || function () {return new Date().getTime();};
 
-// Local WindowAnimationTiming interface polyfill
 (function (w) {
-    /**
-     * Fallback implementation.
-     */
     var prev = _now();
     function fallback(fn) {
         var curr = _now();
@@ -403,9 +399,6 @@ var retina = window.devicePixelRatio,
         return req;
     }
 
-    /**
-     * Cancel.
-     */
     var cancel = w.cancelAnimationFrame
     || w.webkitCancelAnimationFrame
     || w.clearTimeout;
@@ -419,7 +412,6 @@ var retina = window.devicePixelRatio,
     };
 }(window));
 
-// Function to create the canvas element
 function createCanvas(id) {
     var canvas = document.createElement('canvas');
     canvas.id = id;
@@ -428,8 +420,8 @@ function createCanvas(id) {
     canvas.style.left = '0';
     canvas.style.width = '100%';
     canvas.style.height = '100%';
-    canvas.style.pointerEvents = 'none';  // Make sure it doesn't block any other elements
-    canvas.style.zIndex = '999999';  // Ensure it is on top of other elements
+    canvas.style.pointerEvents = 'none';
+    canvas.style.zIndex = '999999';
     document.body.appendChild(canvas);
     return canvas;
 }
