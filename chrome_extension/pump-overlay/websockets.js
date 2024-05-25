@@ -14,9 +14,15 @@ function handleWebSocketMessage(event) {
     try {
         const jsonData = JSON.parse(event.data);
 
-        // Check for the specific structure to trigger celebration
-        if (jsonData.type === "0" && jsonData.content === "triggerCelebration" && jsonData.source === "3") {
-            triggerCelebration();
+        // Check for the specific structure to trigger a function
+        if (jsonData.type === "0" && jsonData.source === "3") {
+            const functionName = jsonData.content;
+            if (typeof window[functionName] === "function") {
+                console.log(`Executing function: ${functionName}`);
+                window[functionName](config.animationDuration);
+            } else {
+                console.error(`Function ${functionName} not found`);
+            }
         } else {
             const fieldValue = jsonData.content;
             console.log('Displaying text:', fieldValue);
@@ -41,18 +47,35 @@ function publishMessage(message) {
     .catch(error => console.error('Error:', error));
 }
 
-// Function to trigger celebration
-function triggerCelebration() {
-    const button = document.querySelector('#celebrate');
-    if (button) {
-        button.click();
-    } else {
-        console.error('Celebrate button not found');
-    }
+// Publish animation parameters to server
+function publishAnimation(command) {
+    const animationParams = { type: "0", content: command, source: "3" };
+    fetch('https://dm-gcp-server-z6ohplpqwq-as.a.run.app/pub', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(animationParams)
+    })
+    .then(response => response.text())
+    .then(data => console.log(data))
+    .catch(error => console.error('Error:', error));
 }
+
+
+// Function to trigger celebration
+function celebration() {
+    triggerCelebrate(config.animationDuration);
+}
+
+// Function to trigger celebration
+function fireworks() {
+    triggerFireworks(config.animationDuration);
+}
+
 
 // Expose functions to global scope
 window.setupWebSocket = setupWebSocket;
 window.handleWebSocketMessage = handleWebSocketMessage;
 window.publishMessage = publishMessage;
-window.triggerCelebration = triggerCelebration;
+window.publishAnimation = publishAnimation;

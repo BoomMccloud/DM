@@ -3,11 +3,14 @@ console.log('Initializing content script');
 // Configuration values
 const config = {
     animationDuration: 7000,
-    transactionDisplayDuration: 6000,
+    transactionDisplayDuration: 12000,
     marketCapThreshold: 5000,
     celebrationCooldown: 30000,
     mutationThrottleTime: 500 // Minimum time between mutation handling in ms
 };
+
+// Expose the config object to the global scope
+window.config = config;
 
 // Call the setupElements function to initialize the script
 setupElements();
@@ -61,16 +64,19 @@ function processTransaction(transactionElement) {
         if (transactionId !== lastTransactionId) {
             lastTransactionId = transactionId;
             const usernameElement = transactionElement.querySelector('div.py-3.pl-2.text-left.flex.items-center.flex-wrap button span span');
-            const actionElement = transactionElement.querySelector('div.p-3.text-left.text-green-300.hidden.sm\\:block, div.p-3.text-left.text-red-300.hidden.sm\\:block');
+            const actionElement = transactionElement.querySelector('div.p-3.text-left.text-green-300.hidden.sm\\:block');
             const amountElements = transactionElement.querySelectorAll('div.p-3.text-left.overflow-hidden.whitespace-nowrap');
             if (usernameElement && actionElement && amountElements.length >= 2) {
                 const username = usernameElement.textContent.trim();
                 const action = actionElement.textContent.trim();
-                const amount = amountElements[1].textContent.trim();
-                const actionWord = action.toLowerCase().includes('buy') ? 'bought' : 'sold';
-                const sentence = `${username} ${actionWord} ${amount}!`;
-                console.log('Transaction:', sentence);
-                window.createFloatingDiv(sentence, config.transactionDisplayDuration);
+                if (action.toLowerCase().includes('buy')) {
+                    const amount = amountElements[1].textContent.trim();
+                    const sentence = `${username} bought ${amount}!`;
+                    console.log('Transaction:', sentence);
+                    window.createFloatingDiv(sentence, config.transactionDisplayDuration);
+                } else {
+                    console.log('Transaction is not a buy, skipping...');
+                }
             }
         } else {
             console.log('Duplicate transaction detected, skipping...');
@@ -104,12 +110,24 @@ function handleMutations(mutationsList) {
     }
 }
 
+// Function to click the button to load transactions
+function clickLoadTransactionsButton() {
+    const button = document.querySelector('div.cursor-pointer.px-1.rounded.hover\\:bg-gray-800.text-gray-500'); // Replace with the actual selector for the button
+    if (button) {
+        button.click();
+        console.log('Clicked the button to load transactions.');
+    } else {
+        console.log('Button to load transactions not found.');
+    }
+}
+
 // Initialize the mutation observer
 const observer = new MutationObserver(handleMutations);
 observer.observe(document.body, { childList: true, subtree: true });
 
 // Run the functions once the DOM is fully loaded
 window.addEventListener('load', () => {
+    clickLoadTransactionsButton();
     const marketCap = extractMarketCap();
     checkAndTriggerFireworks(marketCap);
     captureMostRecentTransaction();

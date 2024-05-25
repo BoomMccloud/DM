@@ -71,7 +71,8 @@ function setupEventListeners() {
     if (fireworksButton) {
         fireworksButton.addEventListener('click', function(event) {
             event.preventDefault();
-            triggerFireworks(5000); // 5 seconds duration
+            publishAnimation('fireworks');
+            // triggerFireworks(config.animationDuration); // 5 seconds duration
         });
     } else {
         console.error('Fireworks button not found');
@@ -81,7 +82,8 @@ function setupEventListeners() {
     if (celebrateButton) {
         celebrateButton.addEventListener('click', function(event) {
             event.preventDefault();
-            triggerCelebrate(5000); // 5 seconds duration
+            publishAnimation('celebration');
+            // triggerCelebrate(config.animationDuration); // 5 seconds duration
         });
     } else {
         console.error('Celebrate button not found');

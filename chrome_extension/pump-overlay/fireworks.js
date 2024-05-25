@@ -8,8 +8,8 @@ function startFireworks(canvasId, duration) {
         ctx = canvas.getContext("2d"),
         width = window.innerWidth,
         height = window.innerHeight,
-        vanishPointY = height / 2,
-        vanishPointX = width / 2,
+        vanishPointY = height / 5,
+        vanishPointX = width / 5,
         focalLength = 300,
         angleX = 180,
         angleY = 180,
@@ -24,6 +24,9 @@ function startFireworks(canvasId, duration) {
 
     canvas.width = width;
     canvas.height = height;
+
+    console.log('Canvas width:', canvas.width);
+    console.log('Canvas height:', canvas.height);
 
     function Emitter() {
         this.reset();
