@@ -1,8 +1,8 @@
 {
   "manifest_version": 3,
-  "name": "DM - A Social Network Web Extension",
+  "name": "DM - A Social Networking Extension",
   "version": "0.1",
-  "description": "DM allows users to chat, send and receive messages from any website.",
+  "description": "DM allows users to chat with other users of the same website in real time. It's a super easy way to talk to real users just like you!",
   "permissions": [
     "activeTab",
     "storage"

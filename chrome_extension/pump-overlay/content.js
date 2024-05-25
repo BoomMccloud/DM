@@ -6,6 +6,9 @@ setupElements();
 // Variable to store the timestamp of the last celebration
 let lastCelebrationTimestamp = 0;
 
+// Set to keep track of processed transactions
+const processedTransactions = new Set();
+
 // Function to capture and log the "Market cap" value
 function captureMarketCap() {
     // Select the parent div with the specific classes
@@ -55,11 +58,49 @@ function captureMarketCap() {
     }
 }
 
+// Function to capture unique user transactions
+function captureUniqueTransactions() {
+    // Select all transaction elements
+    const transactionElements = document.querySelectorAll('div.text-xs.my-1.bg-\\[\\#2e303a\\].rounded-lg.grid.grid-cols-4.sm\\:grid-cols-6.items-start');
+
+    transactionElements.forEach(transactionElement => {
+        // Extract the transaction ID from the href attribute of the last child element
+        const transactionLink = transactionElement.querySelector('a[href*="solscan.io/tx/"]');
+        if (transactionLink) {
+            const transactionId = transactionLink.getAttribute('href').split('/').pop();
+
+            // Check if the transaction ID is already processed
+            if (!processedTransactions.has(transactionId)) {
+                // Add transaction ID to the set
+                processedTransactions.add(transactionId);
+
+                // Extract additional details for the sentence
+                const usernameElement = transactionElement.querySelector('button span span');
+                const actionElement = transactionElement.querySelector('div.text-green-300, div.text-red-300');
+                const amountElements = transactionElement.querySelectorAll('div.p-3.text-left.overflow-hidden.whitespace-nowrap');
+
+                if (usernameElement && actionElement && amountElements.length >= 2) {
+                    const username = usernameElement.textContent.trim();
+                    const action = actionElement.textContent.trim();
+                    const amount = amountElements[1].textContent.trim(); // Selecting the second element
+
+                    const actionWord = action.toLowerCase().includes('buy') ? 'bought' : 'sold';
+                    const sentence = `${username} ${actionWord} ${amount}!`;
+
+                    // Output the sentence to the console
+                    console.log('Transaction:', sentence);
+                }
+            }
+        }
+    });
+}
+
 // Observe changes in the DOM to handle dynamic content loading
 const observer = new MutationObserver((mutationsList, observer) => {
     mutationsList.forEach(mutation => {
         if (mutation.type === 'childList') {
             captureMarketCap();
+            captureUniqueTransactions();
         }
     });
 });
@@ -67,5 +108,8 @@ const observer = new MutationObserver((mutationsList, observer) => {
 // Start observing the document body for added nodes
 observer.observe(document.body, { childList: true, subtree: true });
 
-// Run the function once the DOM is fully loaded
-window.addEventListener('load', captureMarketCap);
+// Run the functions once the DOM is fully loaded
+window.addEventListener('load', () => {
+    captureMarketCap();
+    captureUniqueTransactions();
+});
