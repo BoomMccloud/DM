@@ -6,8 +6,14 @@ setupElements();
 // Variable to store the timestamp of the last celebration
 let lastCelebrationTimestamp = 0;
 
-// Function to capture and log the "Market cap" value
-function captureMarketCap() {
+// Variable to store the market cap value at the last fireworks trigger
+let lastMarketCapForFireworks = 0;
+
+// Variable to store the most recent transaction ID
+let lastTransactionId = '';
+
+// Function to extract and log the "Market cap" value
+function extractMarketCap() {
     // Select the parent div with the specific classes
     const parentDiv = document.querySelector('div.text-xs.text-green-300.flex.w-full.justify-between.items-center');
     
@@ -17,7 +23,7 @@ function captureMarketCap() {
         const childDivs = parentDiv.querySelectorAll('div');
 
         // Loop through each child div element
-        childDivs.forEach(div => {
+        for (const div of childDivs) {
             // Check if the div contains the text "Market cap:"
             if (div.textContent.includes('Market cap:')) {
                 // Extract the market cap value
@@ -27,36 +33,38 @@ function captureMarketCap() {
                 if (marketCapMatch) {
                     const marketCapValue = marketCapMatch[1];
                     console.log('Market cap value:', marketCapValue);
-                    
-                    // Remove commas and convert to a number for comparison
-                    const marketCapNumber = parseFloat(marketCapValue.replace(/,/g, ''));
-                    
-                    // Check if the market cap value is greater than $5000.00
-                    if (marketCapNumber > 5000.00) {
-                        // Get the current timestamp
-                        const currentTimestamp = Date.now();
-                        
-                        // Check if the last celebration was more than 30 seconds ago
-                        console.log('Time since last celebration:', currentTimestamp - lastCelebrationTimestamp);
-                        if (currentTimestamp - lastCelebrationTimestamp > 15000) {
-                            console.log('Triggering celebration...');
-                            triggerFireworks(7000);
-                            // Update the last celebration timestamp
-                            lastCelebrationTimestamp = currentTimestamp;
-                        } else {
-                            console.log('Celebration skipped due to cooldown period.');
-                        }
-                    }
+                    return parseFloat(marketCapValue.replace(/,/g, ''));
                 }
             }
-        });
+        }
     } else {
         console.log('Parent div not found.');
     }
+    return null;
 }
 
-// Variable to store the most recent transaction ID
-let lastTransactionId = '';
+// Function to check if fireworks should be triggered
+function checkAndTriggerFireworks(marketCap) {
+    if (marketCap !== null) {
+        // Check if the market cap value is greater than $5000.00 and $5000 higher than the last trigger value
+        if (marketCap > 5000.00 && (marketCap >= lastMarketCapForFireworks + 5000 || lastMarketCapForFireworks === 0)) {
+            // Get the current timestamp
+            const currentTimestamp = Date.now();
+            
+            // Check if the last celebration was more than 30 seconds ago
+            console.log('Time since last celebration:', currentTimestamp - lastCelebrationTimestamp);
+            if (currentTimestamp - lastCelebrationTimestamp > 5000) {
+                console.log('Triggering celebration...');
+                triggerFireworks(7000);
+                // Update the last celebration timestamp and market cap
+                lastCelebrationTimestamp = currentTimestamp;
+                lastMarketCapForFireworks = marketCap;
+            } else {
+                console.log('Celebration skipped due to cooldown period.');
+            }
+        }
+    }
+}
 
 // Function to process new transactions
 function processTransaction(transactionElement) {
@@ -106,24 +114,29 @@ function captureMostRecentTransaction() {
     }
 }
 
-// Observe changes in the DOM to handle dynamic content loading
-const observer = new MutationObserver((mutationsList, observer) => {
-    console.log('Mutation observed:', mutationsList);
+// Function to handle observed mutations
+function handleMutations(mutationsList) {
+    // console.log('Mutation observed:', mutationsList);
 
     mutationsList.forEach(mutation => {
         if (mutation.type === 'childList' && mutation.addedNodes.length > 0) {
             captureMostRecentTransaction();
         }
-        // Also call captureMarketCap to ensure it's checking for updates
-        captureMarketCap();
+        // Check and possibly trigger fireworks based on the updated market cap
+        const marketCap = extractMarketCap();
+        checkAndTriggerFireworks(marketCap);
     });
-});
+}
+
+// Observe changes in the DOM to handle dynamic content loading
+const observer = new MutationObserver(handleMutations);
 
 // Start observing the document body for added nodes
 observer.observe(document.body, { childList: true, subtree: true });
 
 // Run the functions once the DOM is fully loaded
 window.addEventListener('load', () => {
-    captureMarketCap();
+    const marketCap = extractMarketCap();
+    checkAndTriggerFireworks(marketCap);
     captureMostRecentTransaction();
 });
