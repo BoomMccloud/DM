@@ -3,9 +3,8 @@
   "name": "DM - A Social Networking Extension",
   "version": "0.1",
   "description": "DM allows users to chat with other users of the same website in real time!",
-  "host_permissions": [
-    "https://pump.fun/*"
-  ],
+  "permissions": ["scripting", "activeTab"],
+  "host_permissions": ["<all_urls>"],
   "action": {
     "default_icon": {
       "16": "images/icon16.png",
@@ -15,7 +14,7 @@
   },
   "content_scripts": [
     {
-      "matches": ["https://pump.fun/*"],
+      "matches": ["<all_urls>"],
       "js": [
         "functions.js",
         "websockets.js",
@@ -29,7 +28,7 @@
   "web_accessible_resources": [
     {
       "resources": ["celebrate.js", "fireworks.js"],
-      "matches": ["https://pump.fun/*"]
+      "matches": ["<all_urls>"]
     }
   ],
   "content_security_policy": {
