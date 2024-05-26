@@ -5,8 +5,8 @@ function startCelebrate(canvasId, stopDuration) {
   canvas.width = window.innerWidth;
   canvas.height = window.innerHeight;
 
-  console.log("Canvas width:", canvas.width);
-  console.log("Canvas height:", canvas.height);
+  console.log('Canvas width:', canvas.width);
+  console.log('Canvas height:', canvas.height);
 
   var speed = 50,
     drawDuration = 1.0 / speed,
@@ -18,10 +18,10 @@ function startCelebrate(canvasId, stopDuration) {
     DEG_TO_RAD = Math.PI / 180,
     RAD_TO_DEG = 180 / Math.PI,
     colors = [
-      ["#df0049", "#660671"],
-      ["#00e857", "#005291"],
-      ["#2bebbc", "#05798a"],
-      ["#ffd200", "#b06c00"],
+      ['#df0049', '#660671'],
+      ['#00e857', '#005291'],
+      ['#2bebbc', '#05798a'],
+      ['#ffd200', '#b06c00'],
     ];
 
   function Vector2(_x, _y) {
@@ -385,13 +385,11 @@ function startCelebrate(canvasId, stopDuration) {
   confetti.Context = function (id) {
     var i = 0;
     var canvas = document.getElementById(id);
-    var canvasParent = canvas.parentNode;
-    var canvasWidth = canvasParent.offsetWidth;
-    var canvasHeight = canvasParent.offsetHeight;
+    var canvasWidth = window.innerWidth;
+    var canvasHeight = window.innerHeight;
     canvas.width = canvasWidth * retina;
     canvas.height = canvasHeight * retina;
-    var context = canvas.getContext("2d");
-    var interval = null;
+    var context = canvas.getContext('2d');
     var confettiRibbons = new Array();
     ConfettiRibbon.bounds = new Vector2(canvasWidth, canvasHeight);
     for (i = 0; i < confettiRibbonCount; i++) {
@@ -415,8 +413,8 @@ function startCelebrate(canvasId, stopDuration) {
       );
     }
     this.resize = function () {
-      canvasWidth = canvasParent.offsetWidth;
-      canvasHeight = canvasParent.offsetHeight;
+      canvasWidth = window.innerWidth;
+      canvasHeight = window.innerHeight;
       canvas.width = canvasWidth * retina;
       canvas.height = canvasHeight * retina;
       ConfettiPaper.bounds = new Vector2(canvasWidth, canvasHeight);
@@ -454,14 +452,14 @@ function startCelebrate(canvasId, stopDuration) {
     confetti.stop();
 
     // Clear the canvas
-    var context = canvas.getContext("2d");
+    var context = canvas.getContext('2d');
     context.clearRect(0, 0, canvas.width, canvas.height);
 
     // Remove the canvas element from the DOM
     canvas.parentNode.removeChild(canvas);
   }, stopDuration);
 
-  window.addEventListener("resize", function (event) {
+  window.addEventListener('resize', function (event) {
     confetti.resize();
   });
 }
@@ -507,15 +505,15 @@ var retina = window.devicePixelRatio,
 })(window);
 
 function createCanvas(id) {
-  var canvas = document.createElement("canvas");
+  var canvas = document.createElement('canvas');
   canvas.id = id;
-  canvas.style.position = "fixed";
-  canvas.style.top = "0";
-  canvas.style.left = "0";
-  canvas.style.width = "100%";
-  canvas.style.height = "100%";
-  canvas.style.pointerEvents = "none";
-  canvas.style.zIndex = "999999";
+  canvas.style.position = 'fixed';
+  canvas.style.top = '0';
+  canvas.style.left = '0';
+  canvas.style.width = '100%';
+  canvas.style.height = '100%';
+  canvas.style.pointerEvents = 'none';
+  canvas.style.zIndex = '999999';
   document.body.appendChild(canvas);
   return canvas;
 }

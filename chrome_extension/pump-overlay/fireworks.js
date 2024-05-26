@@ -9,7 +9,7 @@
 
 function startFireworks(canvasId, duration) {
   var canvas = document.getElementById(canvasId) || createCanvas(canvasId),
-    ctx = canvas.getContext("2d"),
+    ctx = canvas.getContext('2d'),
     width = window.innerWidth,
     height = window.innerHeight,
     vanishPointY = height / 5,
@@ -29,8 +29,8 @@ function startFireworks(canvasId, duration) {
   canvas.width = width;
   canvas.height = height;
 
-  console.log("Canvas width:", canvas.width);
-  console.log("Canvas height:", canvas.height);
+  console.log('Canvas width:', canvas.width);
+  console.log('Canvas height:', canvas.height);
 
   function Emitter() {
     this.reset();
@@ -221,7 +221,7 @@ function startFireworks(canvasId, duration) {
 
   setTimeout(function () {
     width = canvas.width = window.innerWidth;
-    height = canvas.height = document.body.offsetHeight;
+    height = canvas.height = window.innerHeight;
     vanishPointY = height / 2;
     vanishPointX = width / 2;
     render();
@@ -231,7 +231,7 @@ function startFireworks(canvasId, duration) {
   setTimeout(function () {
     cancelAnimationFrame(animationFrameId);
     ctx.clearRect(0, 0, width, height);
-    canvas.style.display = "none";
+    canvas.style.display = 'none';
   }, duration);
 }
 
@@ -240,15 +240,15 @@ window.startFireworks = startFireworks;
 
 // Function to create the canvas element
 function createCanvas(id) {
-  var canvas = document.createElement("canvas");
+  var canvas = document.createElement('canvas');
   canvas.id = id;
-  canvas.style.position = "fixed";
-  canvas.style.top = "0";
-  canvas.style.left = "0";
-  canvas.style.width = "100%";
-  canvas.style.height = "100%";
-  canvas.style.pointerEvents = "none"; // Make sure it doesn't block any other elements
-  canvas.style.zIndex = "999999"; // Ensure it is on top of other elements
+  canvas.style.position = 'fixed';
+  canvas.style.top = '0';
+  canvas.style.left = '0';
+  canvas.style.width = '100%';
+  canvas.style.height = '100%';
+  canvas.style.pointerEvents = 'none'; // Make sure it doesn't block any other elements
+  canvas.style.zIndex = '999999'; // Ensure it is on top of other elements
   document.body.appendChild(canvas);
   return canvas;
 }
