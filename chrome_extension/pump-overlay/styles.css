@@ -1,49 +1,62 @@
 /* styles.css */
 #my-overlay {
-    position: fixed;
-    bottom: 0px;
-    left: 0px;
-    right: 0px;
-    background: white;
-    border: 1px solid gray;
-    padding: 8px;
-    z-index: 999999;
+  position: fixed;
+  bottom: 0px;
+  left: 0px;
+  right: 0px;
+  background: white;
+  border: 1px solid gray;
+  padding: 8px;
+  z-index: 999999;
 }
 
 #form {
-    display: flex;
-    gap: 8px;
-    align-items: center;
-    width: 80%;
+  display: flex;
+  gap: 8px;
+  align-items: center;
+  width: 80%;
 }
 
 #message {
-    border: 1px solid black;
-    border-radius: 2px;
-    padding: 2px;
-    flex-grow: 1;
+  border: 1px solid black;
+  border-radius: 2px;
+  padding: 2px;
+  flex-grow: 1;
 }
 
-#confetti, #fireworks {
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    z-index: 999998;
-    pointer-events: none;
+#confetti,
+#fireworks {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 999998;
+  pointer-events: none;
 }
 
 .floating-div {
-    position: fixed;
-    background-image: linear-gradient(to right, #E70000, #FF8C00, #FFEF00, #00811F, #0044FF, #760089);
-    font-size: 2rem;
-    -webkit-background-clip: text;
-    color: transparent;
-    animation: float 10s ease-in-out forwards;
+  position: fixed;
+  background-image: linear-gradient(
+    to right,
+    #e70000,
+    #ff8c00,
+    #ffef00,
+    #00811f,
+    #0044ff,
+    #760089
+  );
+  font-size: 2rem;
+  -webkit-background-clip: text;
+  color: transparent;
+  animation: float 10s ease-in-out forwards;
 }
 
 @keyframes float {
-    0% { right: -20px; }
-    100% { right: 100%; }
+  0% {
+    right: -20px;
+  }
+  100% {
+    right: 100%;
+  }
 }
