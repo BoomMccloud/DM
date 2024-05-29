@@ -73,6 +73,11 @@ function fireworks() {
   triggerFireworks(config.animationDuration);
 }
 
+// Function to trigger mcap
+function showMcap() {
+  triggerMcap(100000);
+}
+
 // Expose functions to global scope
 window.setupWebSocket = setupWebSocket;
 window.handleWebSocketMessage = handleWebSocketMessage;

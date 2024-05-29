@@ -1,4 +1,8 @@
 /* styles.css */
+body {
+  --c1: #fbda61;
+  --c2: #ff5acd;
+}
 #my-overlay {
   position: fixed;
   bottom: 0px;
@@ -49,14 +53,60 @@
   font-size: 2rem;
   -webkit-background-clip: text;
   color: transparent;
-  animation: float 10s ease-in-out forwards;
 }
 
 @keyframes float {
+  100% {
+    right: 200%;
+  }
+}
+
+#mcap {
+  color: transparent;
+  background-clip: text;
+  background-color: #4158d0;
+  background-image: linear-gradient(45deg, var(--c2), var(--c1), var(--c2));
+  background-size: 200% auto;
+  filter: drop-shadow(black 1px 1px 0) drop-shadow(#fbda61 2px 2px 2px);
+  animation: mcap 2s linear forwards;
+  font-size: 100px;
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
+@keyframes mcap {
   0% {
-    right: -20px;
+    transform: scale(0);
+  }
+  10% {
+    transform: scale(0.1);
+  }
+  20% {
+    transform: scale(0.2);
+  }
+  30% {
+    transform: scale(0.6);
+  }
+  40% {
+    transform: scale(1);
+  }
+  50% {
+    transform: scale(0.9);
+  }
+  60% {
+    transform: scale(0.8);
+  }
+  70% {
+    transform: scale(1);
+  }
+  80% {
+    transform: scale(1.2);
+  }
+  90% {
+    transform: scale(0.6);
   }
   100% {
-    right: 100%;
+    transform: scale(0);
   }
 }

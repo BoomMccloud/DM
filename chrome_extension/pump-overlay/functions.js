@@ -20,6 +20,7 @@ function generateHtml() {
                 <input id="submit-btn" type="submit" value="Pump it!">
                 <button id="celebrate" style="margin-left: 8px;">Woot woot!</button>
                 <button id="fireworks-btn" style="margin-left: 8px;">Fireworks!</button>
+                <button id="mcap-btn" style="margin-left: 8px;">show mcap</button>
             </form>
         </div>
         <canvas id="confetti"></canvas>
@@ -42,6 +43,8 @@ function createFloatingDiv(text, duration) {
   newDiv.className = "floating-div";
   newDiv.style.top = `${Math.floor(Math.random() * 60) + 20}%`;
   newDiv.style.right = `-${Math.random() * 100}%`;
+  newDiv.style.animation = `float ${duration / 1000}s ease-in-out forwards`;
+  console.log(duration, "suration");
   document.body.appendChild(newDiv);
   setTimeout(() => {
     document.body.removeChild(newDiv);
@@ -88,6 +91,17 @@ function setupEventListeners() {
   } else {
     console.error("Celebrate button not found");
   }
+
+  const mcapButton = document.querySelector("#mcap-btn");
+  if (mcapButton) {
+    mcapButton.addEventListener("click", function (event) {
+      event.preventDefault();
+      showMcap();
+      // triggermcap(config.animationDuration); // 5 seconds duration
+    });
+  } else {
+    console.error("mcap button not found");
+  }
 }
 
 // Trigger fireworks display
@@ -110,6 +124,17 @@ function triggerCelebrate(duration) {
   startCelebrate("confetti", duration);
 }
 
+// Trigger mcap display
+function triggerMcap(mcap) {
+  const newDiv = document.createElement("div");
+  newDiv.textContent = mcap;
+  newDiv.id = "mcap";
+  document.body.appendChild(newDiv);
+  setTimeout(() => {
+    document.body.removeChild(newDiv);
+  }, 5000);
+}
+
 // Expose functions to global scope
 window.createHtmlElement = createHtmlElement;
 window.generateHtml = generateHtml;
@@ -118,6 +143,7 @@ window.setupElements = setupElements;
 window.setupEventListeners = setupEventListeners;
 window.triggerFireworks = triggerFireworks;
 window.triggerCelebrate = triggerCelebrate;
+window.triggerMcap = triggerMcap;
 
 // Function to create the canvas element
 function createCanvas(id) {
