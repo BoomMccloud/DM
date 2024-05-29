@@ -76,6 +76,7 @@ body {
   left: 50%;
   transform: translate(-50%, -50%);
 }
+
 @keyframes mcap {
   0% {
     opacity: 0;
