@@ -44,7 +44,6 @@ function createFloatingDiv(text, duration) {
   newDiv.style.top = `${Math.floor(Math.random() * 60) + 20}%`;
   newDiv.style.right = `-${Math.random() * 100}%`;
   newDiv.style.animation = `float ${duration / 1000}s ease-in-out forwards`;
-  console.log(duration, "suration");
   document.body.appendChild(newDiv);
   setTimeout(() => {
     document.body.removeChild(newDiv);
