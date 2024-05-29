@@ -68,7 +68,7 @@ body {
   background-image: linear-gradient(45deg, var(--c2), var(--c1), var(--c2));
   background-size: 200% auto;
   filter: drop-shadow(black 1px 1px 0) drop-shadow(#fbda61 2px 2px 2px);
-  animation: mcap 2s linear forwards;
+  animation: mcap 4s cubic-bezier(0.215, 0.61, 0.355, 1) forwards;
   font-size: 100px;
   position: fixed;
   top: 50%;
@@ -77,36 +77,42 @@ body {
 }
 @keyframes mcap {
   0% {
-    transform: scale(0);
+    opacity: 0;
+    transform: scale3d(0.3, 0.3, 0.3);
   }
+
   10% {
-    transform: scale(0.1);
+    transform: scale3d(1.1, 1.1, 1.1);
   }
+
   20% {
-    transform: scale(0.2);
+    transform: scale3d(0.9, 0.9, 0.9);
   }
+
   30% {
-    transform: scale(0.6);
+    opacity: 1;
+    transform: scale3d(1.03, 1.03, 1.03);
   }
+
   40% {
-    transform: scale(1);
+    transform: scale3d(0.97, 0.97, 0.97);
   }
+
   50% {
-    transform: scale(0.9);
+    opacity: 1;
+    transform: scale3d(1, 1, 1);
   }
   60% {
-    transform: scale(0.8);
+    transform: scale3d(0.9, 0.9, 0.9);
   }
-  70% {
-    transform: scale(1);
+
+  75% {
+    opacity: 1;
+    transform: scale3d(1.1, 1.1, 1.1);
   }
-  80% {
-    transform: scale(1.2);
-  }
-  90% {
-    transform: scale(0.6);
-  }
-  100% {
-    transform: scale(0);
+
+  to {
+    opacity: 0;
+    transform: scale3d(0.3, 0.3, 0.3);
   }
 }
