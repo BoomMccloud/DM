@@ -57,7 +57,8 @@ body {
 
 @keyframes float {
   100% {
-    right: 200%;
+    left: 0px;
+    transform: translateX(-100%);
   }
 }
 

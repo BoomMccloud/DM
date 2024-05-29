@@ -42,7 +42,7 @@ function createFloatingDiv(text, duration) {
   newDiv.textContent = text;
   newDiv.className = "floating-div";
   newDiv.style.top = `${Math.floor(Math.random() * 60) + 20}%`;
-  newDiv.style.right = `-${Math.random() * 100}%`;
+  newDiv.style.left = `100vw`;
   newDiv.style.animation = `float ${duration / 1000}s ease-in-out forwards`;
   document.body.appendChild(newDiv);
   setTimeout(() => {
