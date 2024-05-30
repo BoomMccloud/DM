@@ -53,6 +53,7 @@ body {
   font-size: 2rem;
   -webkit-background-clip: text;
   color: transparent;
+  text-wrap: nowrap;
 }
 
 @keyframes float {
